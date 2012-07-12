@@ -13,6 +13,7 @@ UBUNTU_VERSION='12.04'
 LIBEVENT_VERSION='1.4.14'
 LIBCURL_VERSION='7.21.2'
 LIBMEMCACHED_VERSION='0.49'
+JEMALLOC_VERSION='3.0.0'
 
 HIPHOP_PHP_GIT='git://github.com/facebook/hiphop-php.git'
 
@@ -44,7 +45,7 @@ echo ""
 #apt-get update -y
 
 echo "Installing Ubuntu package dependencies."
-apt-get install -y git-core cmake g++ libboost-dev libmysqlclient-dev libxml2-dev libmcrypt-dev libicu-dev openssl build-essential binutils-dev libcap-dev libgd2-xpm-dev zlib1g-dev libtbb-dev libonig-dev libpcre3-dev autoconf libtool libcurl4-openssl-dev libboost-system-dev libboost-program-options-dev libboost-filesystem-dev wget memcached libreadline-dev libncurses-dev libmemcached-dev libbz2-dev libc-client2007e-dev php5-mcrypt php5-imagick libgoogle-perftools-dev libcloog-ppl0
+apt-get install -y git-core cmake g++ libboost-dev libmysqlclient-dev libxml2-dev libmcrypt-dev libicu-dev openssl build-essential binutils-dev libcap-dev libgd2-xpm-dev zlib1g-dev libtbb-dev libonig-dev libpcre3-dev autoconf libtool libcurl4-openssl-dev libboost-system-dev libboost-program-options-dev libboost-filesystem-dev wget memcached libreadline-dev libncurses-dev libmemcached-dev libbz2-dev libc-client2007e-dev php5-mcrypt php5-imagick libgoogle-perftools-dev libcloog-ppl0 libelf-dev libdwarf-dev
 
 
 ## Cleanup old files
@@ -53,8 +54,12 @@ echo "Cleaning up any old files."
 rm -rf ${DEV_PREFIX_PATH}/hiphop-php \
 	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable \
 	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable* \
+	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
 	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
-	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}*
+	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
+	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}* \
+	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION} \
+	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}*
 
 
 ## Fetch libraries
@@ -63,6 +68,7 @@ echo "Downloading library dependencies."
 wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
 wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
 wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+wget -P ${DEV_PREFIX_PATH}/ http://www.canonware.com/download/jemalloc/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 
 ## Extract library dependencies
@@ -71,12 +77,13 @@ echo "Extracting library dependencies."
 tar -xzvf ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable.tar.gz -C ${DEV_PREFIX_PATH}/
 tar -xvzf ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}.tar.gz -C ${DEV_PREFIX_PATH}/
 tar -xzvf ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz -C ${DEV_PREFIX_PATH}/
+tar -xjvf ${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 -C ${DEV_PREFIX_PATH}/
 
 
 ## Fetch HipHop-PHP
 
 echo "Downloading HipHop-PHP."
-git clone $HIPHOP_PHP_GIT ${DEV_PREFIX_PATH}/hiphop-php
+git clone -b vm $HIPHOP_PHP_GIT ${DEV_PREFIX_PATH}/hiphop-php
 
 
 ## Copy patches into position
@@ -93,6 +100,7 @@ cd ${DEV_PREFIX_PATH}/hiphop-php
 export CMAKE_PREFIX_PATH=`/bin/pwd`/../
 export HPHP_HOME=`/bin/pwd`
 export HPHP_LIB=`/bin/pwd`/bin
+export USE_HHVM=1
 
 
 ## Install library dependencies
@@ -131,6 +139,14 @@ make
 make install
 
 
+## jemalloc
+
+cd ${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}
+./configure --prefix=${CMAKE_PREFIX_PATH}
+make
+make install
+
+
 ## Build HipHop
 
 echo "Installing HipHop-PHP."
@@ -154,6 +170,7 @@ make
 ## Symbolically link to bins
 
 ln -s ${DEV_PREFIX_PATH}/hiphop-php/src/hphp /usr/bin/hphp
+ln -s ${DEV_PREFIX_PATH}/hiphop-php/src/hhvm /usr/bin/hhvm
 
 
 ## Success
