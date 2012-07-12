@@ -1,0 +1,14 @@
+--- ./ssluse.c	2012-07-11 18:07:46.027138214 -0700
++++ ./ssluse.new.c	2012-07-11 18:07:44.867159156 -0700
+@@ -1442,6 +1442,11 @@
+   /* Make funny stuff to get random input */
+   Curl_ossl_seed(data);
+ 
++#ifdef OPENSSL_NO_SSL2
++  failf(data, "openSSL was compiled without SSLv2 support");
++  return CURLE_SSL_CONNECT_ERROR;
++#endif
++
+   /* check to see if we've been told to use an explicit SSL/TLS version */
+   switch(data->set.ssl.version) {
+   default:
