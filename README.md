@@ -3,7 +3,7 @@ easy-ubuntu
 
 Easy Ubuntu scripts and helpers to make an already pleasurable experience with Ubuntu even easier.
 
-All scripts have been tested with Ubuntu version 12.10.
+All scripts have been tested with Ubuntu version 12.04.
 
 
 install-hiphop-php.sh
