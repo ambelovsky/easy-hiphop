@@ -13,7 +13,7 @@ UBUNTU_VERSION='12.04'
 LIBEVENT_VERSION='1.4.14'
 LIBCURL_VERSION='7.21.2'
 LIBMEMCACHED_VERSION='0.49'
-JEMALLOC_VERSION='3.0.0'
+#JEMALLOC_VERSION='3.0.0'
 
 HIPHOP_PHP_GIT='git://github.com/facebook/hiphop-php.git'
 
@@ -57,9 +57,9 @@ rm -rf ${DEV_PREFIX_PATH}/hiphop-php \
 	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
 	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
 	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
-	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}* \
-	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION} \
-	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}*
+	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}* #\
+#	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION} \
+#	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}*
 
 
 ## Fetch libraries
@@ -68,7 +68,7 @@ echo "Downloading library dependencies."
 wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
 wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
 wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://www.canonware.com/download/jemalloc/jemalloc-${JEMALLOC_VERSION}.tar.bz2
+#wget -P ${DEV_PREFIX_PATH}/ http://www.canonware.com/download/jemalloc/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 
 ## Extract library dependencies
@@ -77,7 +77,7 @@ echo "Extracting library dependencies."
 tar -xzvf ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable.tar.gz -C ${DEV_PREFIX_PATH}/
 tar -xvzf ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}.tar.gz -C ${DEV_PREFIX_PATH}/
 tar -xzvf ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz -C ${DEV_PREFIX_PATH}/
-tar -xjvf ${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 -C ${DEV_PREFIX_PATH}/
+#tar -xjvf ${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 -C ${DEV_PREFIX_PATH}/
 
 
 ## Fetch HipHop-PHP
@@ -141,10 +141,10 @@ make install
 
 ## jemalloc
 
-cd ${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}
-./configure --prefix=${CMAKE_PREFIX_PATH}
-make
-make install
+#cd ${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}
+#./configure --prefix=${CMAKE_PREFIX_PATH}
+#make
+#make install
 
 
 ## Build HipHop
