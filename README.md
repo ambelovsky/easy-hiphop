@@ -6,9 +6,16 @@ Easy Ubuntu scripts and helpers to make an already pleasurable experience with U
 All scripts have been tested with Ubuntu version 12.04.
 
 
-install-hiphop-php.sh
-=====================
+hiphop-php
+==========
 
-Installs HipHop-PHP and HipHop VM.  Simply set the script as executable and run it with sudo or as the root user.
+To run any of the *.sh scripts, simply set the script as executable and run it with sudo or as the root user.
 
-Be sure that you have the ".diff" patches in the same directory as this script.
+install.sh
+Installs HipHop-PHP and HipHop VM.
+
+install-no-hhvm.sh
+Installs HipHop-PHP only (without HipHop VM).
+
+uninstall.sh
+Removes either installation of HipHop-PHP
