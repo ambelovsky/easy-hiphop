@@ -148,6 +148,10 @@ make
 ln -s ${DEV_PREFIX_PATH}/hiphop-php/src/hphp/hphp /usr/bin/hphp
 
 
+## Set HPHP_HOME more permanently
+echo "HPHP_HOME='${DEV_PREFIX_PATH}/hiphop-php'" >> /etc/profile
+
+
 ## Success
 echo "HipHop-PHP is now installed!"
 exit
