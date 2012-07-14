@@ -17,7 +17,7 @@ LIBMEMCACHED_VERSION='0.49'
 
 HIPHOP_PHP_GIT='git://github.com/facebook/hiphop-php.git'
 
-DEV_PREFIX_PATH='/dev'
+DEV_PREFIX_PATH='/home/dev'
 
 
 ## Introduce
@@ -90,7 +90,7 @@ git clone -b vm $HIPHOP_PHP_GIT ${DEV_PREFIX_PATH}/hiphop-php
 
 cp ${DEV_PREFIX_PATH}/hiphop-php/src/third_party/libevent-${LIBEVENT_VERSION}.fb-changes.diff ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable/
 cp ${DEV_PREFIX_PATH}/hiphop-php/src/third_party/libcurl.fb-changes.diff ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}
-cp ./curl-${LIBCURL_VERSION}.ssluse.diff ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}/lib
+cp ./patch/curl-${LIBCURL_VERSION}.ssluse.diff ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}/lib
 cp ./patch/hiphop-php.extension.diff ${DEV_PREFIX_PATH}/hiphop-php/src/runtime/ext
 
 
