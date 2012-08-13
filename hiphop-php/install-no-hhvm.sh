@@ -52,9 +52,15 @@ rm -rf ${DEV_PREFIX_PATH}/hiphop-php \
 ## Fetch libraries
 
 echo "Downloading library dependencies."
-wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+if [ ! -f ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
+fi
+if [ ! -f ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
+fi
+if [ ! -f ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+fi
 
 
 ## Extract library dependencies
