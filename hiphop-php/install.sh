@@ -51,13 +51,13 @@ apt-get install -y libunwind7 libunwind7-dev git-core cmake g++ libboost-dev lib
 ## Cleanup old files
 
 echo "Cleaning up any old files."
-rm -rf ${DEV_PREFIX_PATH}/hiphop-php \
-	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable \
-	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable* \
-	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
-	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
-	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
-	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}* #\
+rm -rf ${DEV_PREFIX_PATH}/hiphop-php 
+#	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable \
+#	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable* \
+#	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
+#	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
+#	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
+#	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}* #\
 #	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION} \
 #	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}*
 
@@ -65,9 +65,15 @@ rm -rf ${DEV_PREFIX_PATH}/hiphop-php \
 ## Fetch libraries
 
 echo "Downloading library dependencies."
-wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+if [ ! -f ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
+fi
+if [ ! -f ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
+fi
+if [ ! -f ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+fi
 #wget -P ${DEV_PREFIX_PATH}/ http://www.canonware.com/download/jemalloc/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 
