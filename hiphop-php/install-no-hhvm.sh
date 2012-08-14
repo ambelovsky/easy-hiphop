@@ -42,19 +42,25 @@ apt-get install -y libunwind7 libunwind7-dev git-core cmake g++ libboost-dev lib
 echo "Cleaning up any old files."
 rm -rf ${DEV_PREFIX_PATH}/hiphop-php \
 	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable \
-	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable* \
+#	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable* \
 	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
-	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
+#	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
 	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
-	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}*
+#	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}*
 
 
 ## Fetch libraries
 
 echo "Downloading library dependencies."
-wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
-wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+if [ ! -f ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://www.monkey.org/~provos/libevent-${LIBEVENT_VERSION}b-stable.tar.gz
+fi
+if [ ! -f ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
+fi
+if [ ! -f ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz ];then
+	wget -P ${DEV_PREFIX_PATH}/ http://launchpad.net/libmemcached/1.0/${LIBMEMCACHED_VERSION}/+download/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz
+fi
 
 
 ## Extract library dependencies
@@ -96,7 +102,7 @@ echo "Installing library dependencies."
 
 cd ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable
 patch -p1 < libevent-${LIBEVENT_VERSION}.fb-changes.diff
-./configure --prefix=${CMAKE_PREFIX_PATH}
+./configure
 make
 make install
 
@@ -105,7 +111,7 @@ make install
 
 cd ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}
 patch -p1 < libcurl.fb-changes.diff
-./configure --prefix=${CMAKE_PREFIX_PATH}
+./configure
 
 cd ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}/lib
 patch -p1 < curl-${LIBCURL_VERSION}.ssluse.diff
@@ -118,7 +124,7 @@ make install
 ## libmemcached
 
 cd ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}
-./configure --prefix=${CMAKE_PREFIX_PATH}
+./configure
 make
 make install
 
@@ -150,6 +156,7 @@ ln -s ${DEV_PREFIX_PATH}/hiphop-php/src/hphp/hphp /usr/bin/hphp
 
 ## Set HPHP_HOME more permanently
 echo "HPHP_HOME='${DEV_PREFIX_PATH}/hiphop-php'" >> /etc/profile
+source /etc/profile
 
 
 ## Success
