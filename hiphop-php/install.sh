@@ -52,11 +52,11 @@ apt-get install -y libunwind7 libunwind7-dev git-core cmake g++ libboost-dev lib
 
 echo "Cleaning up any old files."
 rm -rf ${DEV_PREFIX_PATH}/hiphop-php 
-#	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable \
+	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable \
 #	${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable* \
-#	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
+	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION} \
 #	${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}* \
-#	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
+	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION} \
 #	${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}* #\
 #	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION} \
 #	${DEV_PREFIX_PATH}/jemalloc-${JEMALLOC_VERSION}*
@@ -118,7 +118,7 @@ echo "Installing library dependencies."
 
 cd ${DEV_PREFIX_PATH}/libevent-${LIBEVENT_VERSION}b-stable
 patch -p1 < libevent-${LIBEVENT_VERSION}.fb-changes.diff
-./configure --prefix=${CMAKE_PREFIX_PATH}
+./configure
 make
 make install
 
@@ -127,7 +127,7 @@ make install
 
 cd ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}
 patch -p1 < libcurl.fb-changes.diff
-./configure --prefix=${CMAKE_PREFIX_PATH}
+./configure
 
 cd ${DEV_PREFIX_PATH}/curl-${LIBCURL_VERSION}/lib
 patch -p1 < curl-${LIBCURL_VERSION}.ssluse.diff
@@ -140,7 +140,7 @@ make install
 ## libmemcached
 
 cd ${DEV_PREFIX_PATH}/libmemcached-${LIBMEMCACHED_VERSION}
-./configure --prefix=${CMAKE_PREFIX_PATH}
+./configure
 make
 make install
 
@@ -181,7 +181,7 @@ ln -s ${DEV_PREFIX_PATH}/hiphop-php/src/hhvm/hhvm /usr/bin/hhvm
 
 ## Set HPHP_HOME more permanently
 echo "HPHP_HOME='${DEV_PREFIX_PATH}/hiphop-php'" >> /etc/profile
-
+source /etc/profile
 
 ## Success
 echo "HipHop-PHP is now installed!"
