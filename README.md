@@ -1,7 +1,7 @@
-easy-ubuntu
+easy-hiphop
 ===========
 
-Easy Ubuntu scripts and helpers to make an already pleasurable experience with Ubuntu even easier.
+Easy HipHop scripts and helpers to make an already pleasurable experience with Ubuntu even easier.
 
 All scripts have been tested with Ubuntu version 12.04.
 
